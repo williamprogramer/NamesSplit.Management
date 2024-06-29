@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Xml.Linq;
 
 namespace NamesSplit.Management
 {
@@ -6,25 +7,29 @@ namespace NamesSplit.Management
     {
         public string[] GetNames(string fullname)
         {
-            string[] compuestos = new string[] { "de" };
-            string name = string.Empty;
+            fullname = fullname.ToLower();
+            string _fullname = string.Empty;
+
+            string[] compounds = new string[] { "de", "del", "la" };
             string[] names = fullname.Split(' ');
 
-            foreach (string item in names)
+            for (int i = 0; i < names.Length; i++)
             {
-                if (compuestos.Contains(item))
+                if ((i + 1) < names.Length && compounds.Contains(names[i + 1]) || compounds.Contains(names[i]))
                 {
-                    name += $"{item}_";
+                    _fullname += $"{names[i]}_";
                 }
                 else
                 {
-                    name += $"{item} ";
+                    _fullname += $"{names[i]} ";
                 }
             }
 
-            string[] fix = name.Split(' ').ToList().Select(x => x.Contains('_') ? x.Replace('_', ' ') : x).ToArray();
+            _fullname = _fullname.Trim();
 
-            return fix;
+            string[] arrangedNames = _fullname.Split(' ').Select(x => x.Contains('_') ? x.Replace('_', ' ') : x).ToArray();
+
+            return arrangedNames;
         }
     }
 }
