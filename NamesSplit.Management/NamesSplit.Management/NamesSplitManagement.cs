@@ -16,20 +16,12 @@ namespace NamesSplit.Management
             for (int i = 0; i < names.Length; i++)
             {
                 if ((i + 1) < names.Length && compounds.Contains(names[i + 1]) || compounds.Contains(names[i]))
-                {
                     _fullname += $"{names[i]}_";
-                }
                 else
-                {
                     _fullname += $"{names[i]} ";
-                }
             }
 
-            _fullname = _fullname.Trim();
-
-            string[] arrangedNames = _fullname.Split(' ').Select(x => x.Contains('_') ? x.Replace('_', ' ') : x).ToArray();
-
-            return arrangedNames;
+            return _fullname.Trim().Split(' ').Select(x => x.Contains('_') ? x.Replace('_', ' ') : x).ToArray();
         }
     }
 }
